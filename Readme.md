@@ -60,22 +60,30 @@ NODE_ENV=development
 
 ## 🔌 Usage
 
+```javascript
+const RabbitFramework = require("whyd-rabbitmq-framework");
+
+const rabbitMQ = new RabbitFramework({
+  logger, //Your Custom Logger
+  url: process.env.RABBITMQ_URL,
+  retryInterval: 5000, //try to connect to rabbitmq every 5 seconds if connection missed
+});
+```
+
 ### 1️⃣ Publisher
 
 ```javascript
-const { publishMessage } = require("whyd-rabbitmq-framework");
-
 const message = { text: "Hello World" };
 
 // Publish to a queue
-publishMessage({
+rabbitMQ.publish({
   name: "task_queue",
   type: "queue",
   message,
 });
 
 // Publish to an exchange
-publishMessage({
+rabbitMQ.publish({
   name: "logs",
   type: "fanout", // direct, topic, headers
   message,
@@ -87,9 +95,7 @@ publishMessage({
 ### 2️⃣ Consumer
 
 ```javascript
-const { consumeMessage } = require("whyd-rabbitmq-framework");
-
-consumeMessage({
+rabbitMQ.consume({
   exchangeName: "logs",
   exchangeType: "fanout",
   queueName: "log_consumer",
@@ -106,16 +112,15 @@ consumeMessage({
 ### 3️⃣ Queue Setup
 
 ```javascript
-const { setUpQueue } = require("whyd-rabbitmq-framework");
 
 // Set up a direct queue
-await setUpQueue("direct", null, "task_queue", "routing_key");
+await rabbit.createQueue({queue,exchange, exchangeType,routingKey,dlq});
 
 // Set up a headers exchange
-await setUpQueue("headers", "logs_headers", "header_queue", "", {
+await rabbit.createQueue({"headers", "logs_headers", "header_queue", "", {
   "x-match": "all",
   level: "info",
-});
+}});
 ```
 
 ## 📝 Logger Support
@@ -129,8 +134,11 @@ const customLogger = {
   error: console.error,
 };
 
-const { setLogger } = require("whyd-rabbitmq-framework");
-setLogger(customLogger);
+const rabbitMQ = new RabbitFramework({
+  logger: customLogger, //Your Custom Logger
+  url: process.env.RABBITMQ_URL,
+  retryInterval: 5000, //try to connect to rabbitmq every 5 seconds if connection missed
+});
 ```
 
 ## 💡 Tips
