@@ -1,7 +1,7 @@
 # RabbitMQ Framework for Node.js
 
 A **robust, reusable, and production-ready RabbitMQ framework** for Node.js projects.  
-Supports queues, exchanges, DLQs, retries, prefetch, custom loggers, and more.  
+Supports queues, exchanges, DLQs, retries, prefetch, custom loggers, and more.
 
 ---
 
