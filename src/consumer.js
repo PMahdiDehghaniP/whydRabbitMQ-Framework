@@ -19,7 +19,7 @@ const consumeMessage = async (channel, config, logger) => {
       await handler(content, msg);
       channel.ack(msg);
     } catch (err) {
-      logger.error("Consume error", err);
+      logger.error(`Error processing message: ${err.message}`);
       channel.nack(msg, false, requeueOnError);
     }
   });

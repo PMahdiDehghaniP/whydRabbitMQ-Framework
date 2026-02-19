@@ -31,7 +31,7 @@ const createQueue = async (channel, config, logger) => {
     await channel.bindQueue(queue, exchange, routingKey);
   }
 
-  logger.info("Queue ready:", queue);
+  logger.info(`Queue ${queue} created`);
 };
 
 module.exports = { createQueue };

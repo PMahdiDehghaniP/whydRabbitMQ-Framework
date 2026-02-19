@@ -15,7 +15,7 @@ class ConnectionManager {
         this.connection = await amqp.connect(this.url);
 
         this.connection.on("error", (err) => {
-          this.logger.error("RabbitMQ error", err);
+          this.logger.error(`RabbitMQ connection error: ${err.message}`);
           this.connection = null;
           this.channel = null;
         });
@@ -30,7 +30,7 @@ class ConnectionManager {
         this.channel = await this.connection.createConfirmChannel();
         this.logger.info("RabbitMQ connected");
       } catch (err) {
-        this.logger.error("RabbitMQ connect failed", err);
+        this.logger.error(`RabbitMQ connection error: ${err.message}`);
         await new Promise((r) => setTimeout(r, this.retryInterval));
       }
     }
