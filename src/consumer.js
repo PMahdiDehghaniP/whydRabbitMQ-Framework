@@ -1,4 +1,4 @@
-const consume = async (channel, config, logger) => {
+const consumeMessage = async (channel, config, logger) => {
   const {
     queue,
     handler,
@@ -25,4 +25,4 @@ const consume = async (channel, config, logger) => {
   });
 };
 
-module.exports = { consume };
+module.exports = { consumeMessage };

@@ -1,7 +1,7 @@
 const ConnectionManager = require("./connection");
 const { createQueue } = require("./topology");
-const { publish } = require("./publisher");
-const { consume } = require("./consumer");
+const { publishMessage } = require("./publisher");
+const { consumeMessage } = require("./consumer");
 const setupShutdown = require("./shutdown");
 
 class RabbitFramework {
@@ -22,12 +22,12 @@ class RabbitFramework {
 
   async publish(config) {
     const ch = await this.conn.getChannel();
-    return publish(ch, config, this.logger);
+    return publishMessage(ch, config, this.logger);
   }
 
   async consume(config) {
     const ch = await this.conn.getChannel();
-    return consume(ch, config, this.logger);
+    return consumeMessage(ch, config, this.logger);
   }
 
   async close() {
